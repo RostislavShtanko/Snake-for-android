@@ -21,7 +21,25 @@
         <activity
             android:name=".GameActivity"
             android:label="@string/title_activity_game"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".RecordsActivity"
+            android:label="@string/title_activity_records"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.test.snake.MainActivity" />
+        </activity>
+        <activity
+            android:name=".AddRecordActivity"
+            android:label="@string/title_activity_add_record"
+            android:parentActivityName=".GameActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.test.snake.GameActivity" />
+        </activity>
     </application>
 
 </manifest>

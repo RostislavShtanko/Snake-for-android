@@ -1,6 +1,5 @@
 package com.test.snake;
 
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
@@ -116,12 +115,12 @@ public class Snake {
     }
 
     private void processTarget() {
-        float tx = Animation.target.getX();
-        float ty = Animation.target.getY();
-        float r = Animation.target.getRADIUS();
+        float tx = Game.target.getX();
+        float ty = Game.target.getY();
+        float r = Game.target.getRADIUS();
         if ((coordsX[size - 1] >= tx - r && coordsX[size - 1] <= tx + r) &&
                 (coordsY[size - 1] >= ty - r && coordsY[size - 1] <= ty + r)) {
-            Animation.targetInit();
+            Game.targetInit();
             increaseSize();
             points += 5;
         }

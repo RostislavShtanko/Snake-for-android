@@ -68,4 +68,19 @@
         android:layout_alignStart="@+id/button2"
         android:background="#7ce86c"
         android:onClick="goHard" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Рекорды"
+        android:id="@+id/button_records"
+        android:width="200dp"
+        android:textSize="36sp"
+        android:textAlignment="center"
+        android:background="#7ce86c"
+        android:onClick="showRecords"
+        android:layout_marginTop="29dp"
+        android:layout_below="@+id/button3"
+        android:layout_centerHorizontal="true"
+        android:nestedScrollingEnabled="false" />
 </RelativeLayout>

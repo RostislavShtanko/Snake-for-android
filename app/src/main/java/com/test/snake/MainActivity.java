@@ -1,5 +1,6 @@
 package com.test.snake;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,14 +10,24 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.content.ContentValues;
+import android.database.Cursor;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = getApplicationContext();
+    }
 
+    public static Context getContext() {
+        return context;
     }
 
     @Override
@@ -56,6 +67,11 @@ public class MainActivity extends AppCompatActivity {
     public void goHard(View view) {
         Intent intent = new Intent(this, GameActivity.class);
         intent.putExtra("Speed", 0);
+        startActivity(intent);
+    }
+
+    public void showRecords(View view) {
+        Intent intent = new Intent(this, RecordsActivity.class);
         startActivity(intent);
     }
 }

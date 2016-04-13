@@ -3,14 +3,10 @@ package com.test.snake;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.*;
-import android.content.Intent;
-import android.widget.EditText;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.content.Intent;
 
 public class GameActivity extends AppCompatActivity {
-    private Animation a;
+    private Game a;
     public static int clientWidth, clientHeight;
 
     @Override
@@ -25,7 +21,7 @@ public class GameActivity extends AppCompatActivity {
         windowInit();
 
         setContentView(R.layout.activity_main);
-        a = new Animation(this, speed);
+        a = new Game(this, speed);
         setContentView(a);
     }
 

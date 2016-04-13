@@ -1,6 +1,5 @@
 package com.test.snake;
 
-import android.content.Intent;
 import android.view.MotionEvent;
 
 /**
@@ -15,7 +14,7 @@ public class TouchControl implements ControlBehavior {
     }
 
     private void turnSnake(float dx, float dy) {
-        if (Math.abs(dx) < Animation.getSlideSize() || Math.abs(dy) < Animation.getSlideSize()) {
+        if (Math.abs(dx) < Game.getSlideSize() || Math.abs(dy) < Game.getSlideSize()) {
             turnX(dx, dy);
             turnY(dx, dy);
         } else {
@@ -28,33 +27,33 @@ public class TouchControl implements ControlBehavior {
     }
 
     private void turnX(float dx, float dy) {
-        if (dx >= Animation.getSlideSize() && snake.getDirection() != "LEFT") {
+        if (dx >= Game.getSlideSize() && snake.getDirection() != "LEFT") {
             snake.turnRight();
         }
-        if (dx <= -Animation.getSlideSize() && snake.getDirection() != "RIGHT") {
+        if (dx <= -Game.getSlideSize() && snake.getDirection() != "RIGHT") {
             snake.turnLeft();
         }
     }
 
     private void turnY(float dx, float dy) {
-        if (dy >= Animation.getSlideSize() && snake.getDirection() != "BOTTOM") {
+        if (dy >= Game.getSlideSize() && snake.getDirection() != "BOTTOM") {
             snake.turnTop();
         }
-        if (dy <= -Animation.getSlideSize() && snake.getDirection() != "TOP") {
+        if (dy <= -Game.getSlideSize() && snake.getDirection() != "TOP") {
             snake.turnBot();
         }
     }
 
     public void control(){
-        switch (Animation.event.getAction()) {
+        switch (Game.event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                initialX = Animation.event.getX();
-                initialY = Animation.event.getY();
+                initialX = Game.event.getX();
+                initialY = Game.event.getY();
                 break;
             case MotionEvent.ACTION_UP:
-                float dx = Animation.event.getX() - initialX;
-                float dy = Animation.event.getY() - initialY;
-                System.out.println(Animation.event.getX() + " " + initialX + " " + Animation.event.getY() + " " + initialY);
+                float dx = Game.event.getX() - initialX;
+                float dy = Game.event.getY() - initialY;
+                System.out.println(Game.event.getX() + " " + initialX + " " + Game.event.getY() + " " + initialY);
                 turnSnake(dx, dy);
                 break;
         }
