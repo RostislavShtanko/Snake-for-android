@@ -81,8 +81,7 @@ public class Game extends View {
     }
 
     private void finishGame(){
-        int topPoints = getTopFivePoints();
-        if(snake.getPoints() > topPoints){
+        if(isInTopFive(snake.getPoints())){
             Intent intent = new Intent(Game.context, AddRecordActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.putExtra("Points", snake.getPoints());
@@ -93,7 +92,7 @@ public class Game extends View {
         }
     }
 
-    private int getTopFivePoints(){
+    private boolean isInTopFive(int currPoints){
         Cursor cursor = databaseModel.getRecords();
         int count = 1;
         int res = 0;
@@ -104,7 +103,9 @@ public class Game extends View {
                 break;
             }
         }
-        return res;
+        if(currPoints > res || count <= 5)
+            return true;
+        return false;
     }
 
     private void putButton(Canvas canvas) {
