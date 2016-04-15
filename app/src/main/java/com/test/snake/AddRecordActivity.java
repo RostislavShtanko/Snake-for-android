@@ -14,12 +14,11 @@ public class AddRecordActivity extends AppCompatActivity {
 
     private int points;
     private String name;
-    private DatabaseModel databaseModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_record);
-        databaseModel = new DatabaseModel(MainActivity.getContext());
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -33,7 +32,7 @@ public class AddRecordActivity extends AppCompatActivity {
         EditText mEdit = (EditText)findViewById(R.id.editTextName);
         name = mEdit.getText().toString();
 
-        databaseModel.addRecord(name, points);
+        DatabaseModel.addRecord(name, points);
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);

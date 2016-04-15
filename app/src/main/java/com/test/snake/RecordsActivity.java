@@ -1,27 +1,31 @@
 package com.test.snake;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class RecordsActivity extends AppCompatActivity {
 
-    private DatabaseModel databaseModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_records);
-        databaseModel = new DatabaseModel(MainActivity.getContext());
         putRecordsOnActivity();
     }
 
     private void putRecordsOnActivity(){
-        Cursor cursor = databaseModel.getRecords();
+        Cursor cursor = DatabaseModel.getRecords();
 
-        TextView textView = new TextView(this);
+        TextView textView = (TextView)findViewById(R.id.textViewRecords);
         textView.setTextSize(20);
+        textView.setText("");
         textView.append("ТОП 5 ПИТОНОВ \n");
         textView.setGravity(Gravity.CENTER_HORIZONTAL);
 
@@ -39,8 +43,25 @@ public class RecordsActivity extends AppCompatActivity {
                 break;
             }
         }
-        setContentView(textView);
         cursor.close();
+    }
+
+    public void clearClick(View view) {
+        Toast toast;
+        try {
+            DatabaseModel.dropTable("records");
+            toast = Toast.makeText(getApplicationContext(),
+                    "Рекурды успешно очищены!", Toast.LENGTH_SHORT);
+        } catch (NullPointerException e){
+            toast = Toast.makeText(getApplicationContext(),
+                    "Ошибка!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        toast.show();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 
 }

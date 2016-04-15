@@ -10,17 +10,10 @@ import android.database.sqlite.SQLiteDatabase;
  */
 public class DatabaseModel {
 
-    private DatabaseHelper mDatabaseHelper;
-    private SQLiteDatabase mSqLiteDatabase;
+    private static DatabaseHelper mDatabaseHelper = new DatabaseHelper(MainActivity.getAppContext());;
+    private static SQLiteDatabase mSqLiteDatabase = mDatabaseHelper.getWritableDatabase();
 
-    public DatabaseModel(Context context){
-
-        mDatabaseHelper = new DatabaseHelper(context);
-        mSqLiteDatabase = mDatabaseHelper.getWritableDatabase();
-
-    }
-
-    public Cursor getRecords(){
+    public static Cursor getRecords(){
         Cursor cursor = mSqLiteDatabase.query("records", new String[]{
                         "user", "points"}, null,
                 null,
@@ -32,12 +25,16 @@ public class DatabaseModel {
         return cursor;
     }
 
-    public void addRecord(String name, int value) {
+    public static void addRecord(String name, int value) {
         ContentValues values = new ContentValues();
         // Задайте значения для каждого столбца
         values.put("user", name);
         values.put("points", value);
         // Вставляем данные в таблицу
         mSqLiteDatabase.insert("records", null, values);
+    }
+
+    public static void dropTable(String title) {
+        mSqLiteDatabase.delete(title, null, null);
     }
 }

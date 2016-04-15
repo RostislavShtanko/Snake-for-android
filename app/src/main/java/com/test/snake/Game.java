@@ -27,7 +27,6 @@ public class Game extends View {
     private ControlBehavior controlBehavior;
     public static Canvas canvas;
     public static MotionEvent event;
-    private DatabaseModel databaseModel;
 
     private final static float SLIDE_SIZE = 30;
 
@@ -41,7 +40,6 @@ public class Game extends View {
         targetInit();
         this.context = context;
         controlBehavior = new TouchControl(snake);
-        databaseModel = new DatabaseModel(context);
     }
 
     public static void targetInit() {
@@ -93,7 +91,7 @@ public class Game extends View {
     }
 
     private boolean isInTopFive(int currPoints){
-        Cursor cursor = databaseModel.getRecords();
+        Cursor cursor = DatabaseModel.getRecords();
         int count = 1;
         int res = 0;
         while (cursor.moveToNext()) {

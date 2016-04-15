@@ -18,15 +18,15 @@ import android.database.Cursor;
 public class MainActivity extends AppCompatActivity {
 
     private static Context context;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        context = getApplicationContext();
+
+        context = this.getApplicationContext();
     }
 
-    public static Context getContext() {
+    public static Context getAppContext() {
         return context;
     }
 

@@ -34,4 +34,5 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns{
         db.execSQL("DROP TABLE IF IT EXISTS " + RECORDS_TABLE);
         onCreate(db);
     }
+
 }
