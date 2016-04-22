@@ -12,7 +12,7 @@ public class Snake {
     private float[] coordsX, coordsY;
     private int size, points;
     private static int cnt;
-    private Paint paint;
+    public static Paint paint;
     private DrawBehavior drawBehavior;
     private static boolean isTurn, gameOver;
 
@@ -34,7 +34,7 @@ public class Snake {
         paint.setColor(Color.rgb(255, 20, 147));
         paint.setStrokeWidth(SNAKE_WIDTH);
 
-        drawBehavior = new DrawOnCanvas(this);
+        drawBehavior = new DrawOnCanvas();
 
         points = 0;
         cnt = 0;
@@ -77,16 +77,11 @@ public class Snake {
         return isTurn;
     }
 
-    public Paint getPaint() {
-        return paint;
-    }
-
     public static int getSnakeWidth() {
         return SNAKE_WIDTH;
     }
 
     public void move() {
-        drawSnake();
         setGameOver();
         for (int i = 0; i < size - 1; i++) {
             coordsX[i] = coordsX[i + 1];

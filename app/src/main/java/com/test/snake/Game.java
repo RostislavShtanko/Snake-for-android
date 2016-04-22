@@ -64,6 +64,7 @@ public class Game extends View {
         super.onDraw(canvas);
         target.draw(canvas);
         snake.move();
+        snake.drawSnake();
         controlSnake();
         if (!Snake.isGameOver()) {
             try {
