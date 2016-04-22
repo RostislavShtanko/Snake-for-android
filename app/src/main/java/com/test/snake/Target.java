@@ -27,9 +27,9 @@ public class Target {
         return RADIUS;
     }
 
-    public void draw(Canvas canvas){
+    public void draw(){
         paint.setColor(color);
-        canvas.drawCircle(x, y, RADIUS, paint);
+        GameView.canvas.drawCircle(x, y, RADIUS, paint);
     }
 
     private int getRandomColor(){

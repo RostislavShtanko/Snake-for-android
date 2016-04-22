@@ -16,30 +16,36 @@ import java.util.Random;
  * Created by Ростислав on 02.04.2016.
  */
 
-public class Game extends View {
+public class Game{
 
-    private Paint paint;
-    private Snake snake;
+    public static Snake[] snakes;
+    public final static int CNT_OF_SNAKES = 2;
     public static Target target;
     public static Context context;
-    private int snakeSpeed;
-    private float initialX, initialY;
-    private ControlBehavior controlBehavior;
-    public static Canvas canvas;
-    public static MotionEvent event;
+    private static int snakeSpeed;
+    private static GameView gameView;
+    private static Button finishButton;
 
     private final static float SLIDE_SIZE = 30;
 
-    public Game(Context context, int snakeSpeed) {
-        super(context);
+    public Game(Context context, int snakeSpeed, GameView gameView) {
         this.snakeSpeed = snakeSpeed;
-        snake = new Snake(10, 10, 0, 1, 50);
-        paint = new Paint();
-        paint.setColor(Color.BLACK);
-        paint.setTextSize(26);
         targetInit();
+        this.gameView = gameView;
+        snakes = new Snake[CNT_OF_SNAKES];
+        snakesInit();
         this.context = context;
-        controlBehavior = new TouchControl(snake);
+        finishButton = new Button(GameActivity.clientWidth / 2 - 200, GameActivity.clientHeight / 2 - 50, GameActivity.clientWidth / 2 + 200, GameActivity.clientHeight / 2 + 50,
+                "Начать заново",Color.rgb(124, 232, 108), 46);
+    }
+
+    private void snakesInit(){
+        for(int i = 0; i < CNT_OF_SNAKES; i++) {
+            int color = Color.rgb(255, 20, 147);
+            if(i != 0)
+                color = Color.rgb(30, 30, 30);
+            snakes[i] = new Snake(i * 20 + 10, i * 20 + 10, 0, 1, 50, "touch", color);
+        }
     }
 
     public static void targetInit() {
@@ -57,41 +63,43 @@ public class Game extends View {
     }
 
 
-    @Override
-    public void onDraw(Canvas canvas) {
+    public static void gameStep() {
         //Snake s = new Snake(10, 10, 1, 0, 10, canvas);
-        this.canvas = canvas;
-        super.onDraw(canvas);
-        target.draw(canvas);
-        snake.move();
-        snake.drawSnake();
-        controlSnake();
+        for(int i = 0; i < CNT_OF_SNAKES; i++)
+            snakes[i].move();
         if (!Snake.isGameOver()) {
             try {
                 Thread.sleep(snakeSpeed * 10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            invalidate();
-            canvas.drawText("Points " + snake.getPoints(), GameActivity.clientWidth / 2 - 50, GameActivity.clientHeight - 70, paint);
+            gameView.drawText("Points " + getPointsOfSnakes(), GameActivity.clientWidth / 2 - 50, GameActivity.clientHeight - 70);
         } else {
             finishGame();
         }
     }
 
-    private void finishGame(){
-        if(isInTopFive(snake.getPoints())){
-            Intent intent = new Intent(Game.context, AddRecordActivity.class);
+    private static int getPointsOfSnakes(){
+        int res = 0;
+        for(int i = 0; i < CNT_OF_SNAKES; i++){
+            res += snakes[i].getPoints();
+        }
+        return res;
+    }
+
+    private static void finishGame(){
+        if(isInTopFive(getPointsOfSnakes())){
+            Intent intent = new Intent(context, AddRecordActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            intent.putExtra("Points", snake.getPoints());
-            Game.context.startActivity(intent);
+            intent.putExtra("Points", getPointsOfSnakes());
+            context.startActivity(intent);
         } else {
-            canvas.drawText("Конец игры. Ваш результат  " + snake.getPoints() + " очков.", GameActivity.clientWidth / 2 - 200, GameActivity.clientHeight - 70, paint);
-            putButton(canvas);
+            gameView.drawText("Конец игры. Ваш результат  " + getPointsOfSnakes() + " очков.", GameActivity.clientWidth / 2 - 200, GameActivity.clientHeight - 70);
+            finishButton.draw();
         }
     }
 
-    private boolean isInTopFive(int currPoints){
+    private static boolean isInTopFive(int currPoints){
         Cursor cursor = DatabaseModel.getRecords();
         int count = 1;
         int res = 0;
@@ -107,54 +115,13 @@ public class Game extends View {
         return false;
     }
 
-    private void putButton(Canvas canvas) {
-        paint.setColor(Color.rgb(124, 232, 108));
-        canvas.drawRect(GameActivity.clientWidth / 2 - 200, GameActivity.clientHeight / 2 - 50, GameActivity.clientWidth / 2 + 200, GameActivity.clientHeight / 2 + 50, paint);
-        Rect mTextBoundRect = new Rect();
-        String text = "Начать заново";
-        paint.setColor(Color.BLACK);
-        paint.setTextSize(46);
-
-        paint.getTextBounds(text, 0, text.length(), mTextBoundRect);
-        float textWidth = paint.measureText(text);
-        float textHeight = mTextBoundRect.height();
-        canvas.drawText(text, GameActivity.clientWidth / 2 - (textWidth / 2f), GameActivity.clientHeight / 2 + (textHeight / 2f), paint);
-    }
-
-    private void controlSnake(){
-        if(!(controlBehavior instanceof TouchControl)){
-            controlBehavior.control();
-        }
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        this.event = event;
-        switch (Game.event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                initialX = Game.event.getX();
-                initialY = Game.event.getY();
-                break;
-            case MotionEvent.ACTION_UP:
-                if (Snake.isGameOver())
-                    processButton(initialX, initialY);
-                break;
-        }
-        if(controlBehavior instanceof TouchControl) {
-            controlBehavior.control();
-        }
-        return true;
-    }
-
-    public void processButton(float x, float y) {
-        float bx1 = GameActivity.clientWidth / 2 - 200;
-        float by1 = GameActivity.clientHeight / 2 - 50;
-        float bx2 = GameActivity.clientWidth / 2 + 200;
-        float by2 = GameActivity.clientHeight / 2 + 50;
-        if (x >= bx1 && x <= bx2 && y >= by1 && y <= by2) {
-            Intent intent = new Intent(Game.context, MainActivity.class);
+    public static void processButton(float x, float y) {
+        y -= 50;
+        System.out.println("INTENT");
+        if (finishButton.isClickInside(x, y)) {
+            Intent intent = new Intent(context, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            Game.context.startActivity(intent);
+            context.startActivity(intent);
         }
     }
 

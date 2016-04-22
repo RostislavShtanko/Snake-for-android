@@ -45,15 +45,15 @@ public class TouchControl implements ControlBehavior {
     }
 
     public void control(){
-        switch (Game.event.getAction()) {
+        switch (GameActivity.event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                initialX = Game.event.getX();
-                initialY = Game.event.getY();
+                initialX = GameActivity.event.getX();
+                initialY = GameActivity.event.getY();
                 break;
             case MotionEvent.ACTION_UP:
-                float dx = Game.event.getX() - initialX;
-                float dy = Game.event.getY() - initialY;
-                System.out.println(Game.event.getX() + " " + initialX + " " + Game.event.getY() + " " + initialY);
+                float dx = GameActivity.event.getX() - initialX;
+                float dy = GameActivity.event.getY() - initialY;
+                System.out.println(GameActivity.event.getX() + " " + initialX + " " + GameActivity.event.getY() + " " + initialY);
                 turnSnake(dx, dy);
                 break;
         }

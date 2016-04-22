@@ -1,5 +1,6 @@
 package com.test.snake;
 
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.*;
@@ -7,7 +8,10 @@ import android.graphics.Point;
 
 public class GameActivity extends AppCompatActivity {
     private Game a;
+    private GameView gameView;
+    private float initialX, initialY;
     public static int clientWidth, clientHeight;
+    public static MotionEvent event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +25,9 @@ public class GameActivity extends AppCompatActivity {
         windowInit();
 
         setContentView(R.layout.activity_main);
-        a = new Game(this, speed);
-        setContentView(a);
+        gameView = new GameView(this);
+        a = new Game(this, speed, gameView);
+        setContentView(gameView);
     }
 
     private void windowInit() {
@@ -46,6 +51,28 @@ public class GameActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        this.event = event;
+        System.out.println("wetqet");
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                initialX = event.getX();
+                initialY = event.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                if (Snake.isGameOver())
+                    Game.processButton(initialX, initialY);
+                break;
+        }
+        for(int i = 0; i < Game.CNT_OF_SNAKES; i++){
+            if(Game.snakes[i].controlBehavior instanceof TouchControl){
+                Game.snakes[i].controlBehavior.control();
+            }
+        }
+        return true;
     }
 
 }

@@ -6,10 +6,18 @@ package com.test.snake;
 public class DrawOnCanvas implements DrawBehavior {
 
     public void drawLine(float x1, float y1, float x2, float y2) {
-        Game.canvas.drawLine(x1, y1, x2, y2, Snake.paint);
+        GameView.canvas.drawLine(x1, y1, x2, y2, GameView.paint);
     }
 
     public void drawCircle(float x, float y, float r) {
-        Game.canvas.drawCircle(x, y, r, Snake.paint);
+        GameView.canvas.drawCircle(x, y, r, GameView.paint);
+    }
+
+    public void drawText(String text, float x, float y){
+        GameView.canvas.drawText(text, x, y, GameView.paint);
+    }
+
+    public void drawRect(float x1, float y1, float x2, float y2){
+        GameView.canvas.drawRect(x1, y1, x2, y2, GameView.paint);
     }
 }
