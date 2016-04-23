@@ -40,6 +40,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.test.snake.GameActivity" />
         </activity>
+        <activity
+            android:name=".Complexity"
+            android:label="@string/title_activity_complexity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.test.snake.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

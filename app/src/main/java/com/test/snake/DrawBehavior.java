@@ -14,4 +14,6 @@ public interface DrawBehavior {
     public void drawText(String text, float x, float y);
 
     public void drawRect(float x1, float y1, float x2, float y2);
+
+
 }

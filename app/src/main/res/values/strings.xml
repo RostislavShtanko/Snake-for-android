@@ -4,4 +4,5 @@
     <string name="title_activity_game">GameActivity</string>
     <string name="title_activity_records">RecordsActivity</string>
     <string name="title_activity_add_record">AddRecordActivity</string>
+    <string name="title_activity_complexity">Complexity</string>
 </resources>

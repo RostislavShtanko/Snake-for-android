@@ -28,59 +28,62 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Легкий"
-        android:id="@+id/button1"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="84dp"
-        android:width="200dp"
-        android:textSize="36dp"
-        android:textAlignment="center"
-        android:background="#7ce86c"
-        android:onClick="goEasy" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Средний"
-        android:id="@+id/button2"
-        android:width="200dp"
-        android:textSize="36dp"
-        android:textAlignment="center"
-        android:layout_below="@+id/button1"
-        android:layout_alignLeft="@+id/button1"
-        android:layout_alignStart="@+id/button1"
-        android:layout_marginTop="32dp"
-        android:background="#7ce86c"
-        android:onClick="goMedium" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Сложный"
-        android:id="@+id/button3"
-        android:width="200dp"
-        android:textSize="36sp"
-        android:textAlignment="center"
-        android:layout_marginTop="32dp"
-        android:layout_below="@+id/button2"
-        android:layout_alignLeft="@+id/button2"
-        android:layout_alignStart="@+id/button2"
-        android:background="#7ce86c"
-        android:onClick="goHard" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Рекорды"
         android:id="@+id/button_records"
-        android:width="200dp"
+        android:width="280dp"
         android:textSize="36sp"
         android:textAlignment="center"
         android:background="#7ce86c"
         android:onClick="showRecords"
-        android:layout_marginTop="29dp"
-        android:layout_below="@+id/button3"
+        android:nestedScrollingEnabled="false"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_marginTop="43dp"
+        android:layout_below="@+id/button_comp"
+        android:layout_alignLeft="@+id/button_comp"
+        android:layout_alignStart="@+id/button_comp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="МУЛЬТИПЛЕЕР"
+        android:id="@+id/button_mult"
+        android:width="280dp"
+        android:textSize="36sp"
+        android:textAlignment="center"
+        android:background="#7ce86c"
+        android:onClick="goMult"
+        android:nestedScrollingEnabled="false"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/button_single"
+        android:layout_alignStart="@+id/button_single" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="СЛОЖНОСТЬ"
+        android:id="@+id/button_comp"
+        android:width="280dp"
+        android:textSize="36sp"
+        android:textAlignment="center"
+        android:background="#7ce86c"
+        android:onClick="goComp"
+        android:nestedScrollingEnabled="false"
+        android:layout_marginTop="36dp"
+        android:layout_below="@+id/button_mult"
+        android:layout_alignLeft="@+id/button_mult"
+        android:layout_alignStart="@+id/button_mult" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ОДИНОЧНАЯ"
+        android:id="@+id/button_single"
+        android:width="280dp"
+        android:textSize="36sp"
+        android:textAlignment="center"
+        android:background="#7ce86c"
+        android:onClick="goSingle"
+        android:nestedScrollingEnabled="false"
         android:layout_centerHorizontal="true"
-        android:nestedScrollingEnabled="false" />
+        android:layout_marginTop="165dp" />
 </RelativeLayout>

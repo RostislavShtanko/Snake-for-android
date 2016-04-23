@@ -16,17 +16,18 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Bundle extras = getIntent().getExtras();
-        int speed = 1;
+        int mode = 1;
         if (extras != null) {
-            speed = extras.getInt("Speed");
+            mode = extras.getInt("mode");
         }
+        int speed = DatabaseModel.getComplexity();
 
         super.onCreate(savedInstanceState);
         windowInit();
 
         setContentView(R.layout.activity_main);
         gameView = new GameView(this);
-        a = new Game(this, speed, gameView);
+        a = new Game(this, speed, gameView, mode);
         setContentView(gameView);
     }
 
@@ -56,21 +57,18 @@ public class GameActivity extends AppCompatActivity {
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         this.event = event;
-        System.out.println("wetqet");
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 initialX = event.getX();
                 initialY = event.getY();
                 break;
             case MotionEvent.ACTION_UP:
-                if (Snake.isGameOver())
+                if (Game.gameOver)
                     Game.processButton(initialX, initialY);
                 break;
         }
         for(int i = 0; i < Game.CNT_OF_SNAKES; i++){
-            if(Game.snakes[i].controlBehavior instanceof TouchControl){
-                Game.snakes[i].controlBehavior.control();
-            }
+            Game.snakes[i].controlBehavior.control();
         }
         return true;
     }

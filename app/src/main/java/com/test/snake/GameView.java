@@ -15,7 +15,6 @@ public class GameView extends View {
     public static DrawBehavior drawBehavior;
     public static Paint paint;
     public static Canvas canvas;
-    private Snake[] snakes;
 
     public GameView(Context context) {
         super(context);
@@ -36,16 +35,37 @@ public class GameView extends View {
         for(int i = 0; i < Game.CNT_OF_SNAKES; i++) {
             paint.setColor(Game.snakes[i].color);
             Game.snakes[i].drawSnake();
+            if(Game.snakes[i].controlBehavior instanceof ButtonControl){
+                drawControlButtons();
+            }
         }
-        if (!Snake.isGameOver())
+        drawLines();
+        if (!Game.gameOver)
             invalidate();
     }
 
     public void drawText(String text, float x, float y){
+        int prevColor = paint.getColor();
+        paint.setColor(Color.BLACK);
         drawBehavior.drawText(text, x, y);
+        paint.setColor(prevColor);
     }
 
     public void drawRect(float x1, float y1, float x2, float y2){
         drawBehavior.drawRect(x1, y1, x2, y2);
+    }
+
+    public static void drawControlButtons() {
+        for(int i = 0; i < 4; i++){
+            Game.controlButtons[i].draw();
+        }
+    }
+
+    public void drawLines(){
+        int prevColor = paint.getColor();
+        paint.setColor(Color.GRAY);
+        drawRect(Game.GAME_WINDOW_LEFT, Game.GAME_WINDOW_TOP, Game.GAME_WINDOW_RIGHT, Game.GAME_WINDOW_TOP + 1);
+        drawRect(Game.GAME_WINDOW_LEFT, Game.GAME_WINDOW_BOT - 1, Game.GAME_WINDOW_RIGHT, Game.GAME_WINDOW_BOT);
+        paint.setColor(prevColor);
     }
 }

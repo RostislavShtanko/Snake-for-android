@@ -44,6 +44,7 @@ public class TouchControl implements ControlBehavior {
         }
     }
 
+    @Override
     public void control(){
         switch (GameActivity.event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -53,8 +54,9 @@ public class TouchControl implements ControlBehavior {
             case MotionEvent.ACTION_UP:
                 float dx = GameActivity.event.getX() - initialX;
                 float dy = GameActivity.event.getY() - initialY;
-                System.out.println(GameActivity.event.getX() + " " + initialX + " " + GameActivity.event.getY() + " " + initialY);
-                turnSnake(dx, dy);
+                //System.out.println(GameActivity.event.getX() + " " + initialX + " " + GameActivity.event.getY() + " " + initialY);
+                if(initialY > Game.GAME_WINDOW_TOP && initialY < Game.GAME_WINDOW_BOT + 50)
+                    turnSnake(dx, dy);
                 break;
         }
     }

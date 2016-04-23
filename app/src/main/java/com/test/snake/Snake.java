@@ -14,7 +14,7 @@ public class Snake {
     public int color;
     private static int cnt;
     public ControlBehavior controlBehavior;
-    private static boolean isTurn, gameOver;
+    private static boolean isTurn;
 
     private final static int BLOCK_SIZE = 10;
     private final static int MAX_SNAKE_SIZE = 2000;
@@ -29,6 +29,8 @@ public class Snake {
         this.color = color;
         if(control == "touch"){
             controlBehavior = new TouchControl(this);
+        } else if(control == "buttons"){
+            controlBehavior = new ButtonControl(this);
         }
         init();
     }
@@ -38,7 +40,6 @@ public class Snake {
         points = 0;
         cnt = 0;
         isTurn = false;
-        gameOver = false;
 
         coordsX = new float[MAX_SNAKE_SIZE];
         coordsY = new float[MAX_SNAKE_SIZE];
@@ -68,10 +69,6 @@ public class Snake {
         return BLOCK_SIZE;
     }
 
-    public static boolean isGameOver() {
-        return gameOver;
-    }
-
     public static boolean isTurn() {
         return isTurn;
     }
@@ -81,7 +78,6 @@ public class Snake {
     }
 
     public void move() {
-        setGameOver();
         for (int i = 0; i < size - 1; i++) {
             coordsX[i] = coordsX[i + 1];
             coordsY[i] = coordsY[i + 1];
@@ -94,17 +90,17 @@ public class Snake {
     }
 
     private void processWalls() {
-        if (coordsX[size - 1] > GameActivity.clientWidth) {
-            coordsX[size - 1] = 0;
+        if (coordsX[size - 1] > Game.GAME_WINDOW_RIGHT) {
+            coordsX[size - 1] = Game.GAME_WINDOW_LEFT;
         }
-        if (coordsX[size - 1] < 0) {
-            coordsX[size - 1] = GameActivity.clientWidth;
+        if (coordsX[size - 1] < Game.GAME_WINDOW_LEFT) {
+            coordsX[size - 1] = Game.GAME_WINDOW_RIGHT;
         }
-        if (coordsY[size - 1] > GameActivity.clientHeight - 50) {
-            coordsY[size - 1] = 0;
+        if (coordsY[size - 1] > Game.GAME_WINDOW_BOT) {
+            coordsY[size - 1] = Game.GAME_WINDOW_TOP + SNAKE_WIDTH / 2;
         }
-        if (coordsY[size - 1] < 0) {
-            coordsY[size - 1] = GameActivity.clientHeight - 50;
+        if (coordsY[size - 1] < Game.GAME_WINDOW_TOP) {
+            coordsY[size - 1] = Game.GAME_WINDOW_BOT - SNAKE_WIDTH / 2;
         }
     }
 
@@ -156,20 +152,6 @@ public class Snake {
             return "BOTTOM";
         }
         return "LEFT";
-    }
-
-    private void setGameOver() {
-        float hx = coordsX[size - 1];
-        float hy = coordsY[size - 1];
-        for (int i = 1; i < size-1; i++) {
-            if ((((hx >= coordsX[i - 1] && hx <= coordsX[i]) || (hx <= coordsX[i - 1] && hx >= coordsX[i]))
-                    && Math.abs(coordsX[i - 1] - coordsX[i]) == BLOCK_SIZE && hy > coordsY[i - 1] - BLOCK_SIZE && hy < coordsY[i - 1] + BLOCK_SIZE) ||
-                    (((hy >= coordsY[i - 1] && hy <= coordsY[i]) || (hy <= coordsY[i - 1] && hy >= coordsY[i]))
-                            && Math.abs(coordsY[i - 1] - coordsY[i]) == BLOCK_SIZE && hx > coordsX[i - 1] - BLOCK_SIZE && hx < coordsX[i - 1] + BLOCK_SIZE)) {
-                gameOver = true;
-            }
-        }
-
     }
 
     public void turnLeft() {

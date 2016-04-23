@@ -52,26 +52,25 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void goEasy(View view) {
-        Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra("Speed", 5);
-        startActivity(intent);
-    }
-
-    public void goMedium(View view) {
-        Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra("Speed", 3);
-        startActivity(intent);
-    }
-
-    public void goHard(View view) {
-        Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra("Speed", 0);
-        startActivity(intent);
-    }
-
     public void showRecords(View view) {
         Intent intent = new Intent(this, RecordsActivity.class);
+        startActivity(intent);
+    }
+
+    public void goSingle(View view) {
+        Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra("mode", 1);
+        startActivity(intent);
+    }
+
+    public void goMult(View view) {
+        Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra("mode", 2);
+        startActivity(intent);
+    }
+
+    public void goComp(View view) {
+        Intent intent = new Intent(this, Complexity.class);
         startActivity(intent);
     }
 }
